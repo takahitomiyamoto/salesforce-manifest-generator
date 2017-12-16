@@ -1,0 +1,9 @@
+.DS_Store
+.gradle
+.sfdx/tools/apex.db
+.vscode
+bin
+build
+package.xml
+credentials.json
+salesforce-manifest-generator

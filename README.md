@@ -32,7 +32,11 @@ generate the package.xml manifest file including all metadata
 
 By the way,
 - "orgType" : "login" or "test"
+    - "login" : production, developer
+    - "test" : sandbox
 - "os" : "win" or "mac"
+    - "win" : use "Shift_JIS" to create package.xml
+    - "mac" : use "UTF-8" to create package.xml
 
 ### execute the shell script and check the generated package.xml
     $ ./salesforce-manifest-generator

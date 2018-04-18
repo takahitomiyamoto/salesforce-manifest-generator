@@ -12,10 +12,11 @@ import org.json.JSONObject;
 public class LoginUtils {
 
     private static final String CREDENTIALS_FILE = CommonUtils.CREDENTIALS_FILE;
+    private static final String FILE_ENCODING_UTF8 = CommonUtils.FILE_ENCODING_UTF8;
 
     public static MetadataConnection login()
       throws ConnectionException, IOException {
-        final JSONObject jsonObj = new JSONObject(CommonUtils.readAllLine(CREDENTIALS_FILE));
+        final JSONObject jsonObj = new JSONObject(CommonUtils.readAllLine(CREDENTIALS_FILE, FILE_ENCODING_UTF8));
 
         final String username = CommonUtils.getUsername(jsonObj);
         final String password = CommonUtils.getPassword(jsonObj);

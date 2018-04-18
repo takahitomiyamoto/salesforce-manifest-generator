@@ -1,8 +1,9 @@
 package com.smg.util;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import org.json.JSONObject;
 
 public class CommonUtils {
@@ -16,6 +17,11 @@ public class CommonUtils {
     public static final String PROPERTY_LINE_SEPARATOR = System.getProperty("line.separator");
     public static final String HTTPS = "https://";
     public static final String SERVICE_SOAP_U = ".salesforce.com/services/Soap/u/";
+    public static final String OS = "os";
+    public static final String OS_WIN = "win";
+    public static final String OS_MAC = "mac";
+    public static final String FILE_ENCODING_SJIS = "Shift_JIS";
+    public static final String FILE_ENCODING_UTF8 = "UTF-8";
 
     public static String getUsername(final JSONObject jsonObj) {
         final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
@@ -51,13 +57,26 @@ public class CommonUtils {
         return apiVersion;
     }
 
-    public static String readAllLine(final String path)
+    public static String getOs(final JSONObject jsonObj) {
+        final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
+        final String os = credential.getString(OS);
+
+        return os;
+    }
+
+    public static String readAllLine(final String path, final String os)
       throws IOException {
         final StringBuilder builder = new StringBuilder();
-        final BufferedReader reader = new BufferedReader(new FileReader(path));
+        final FileInputStream input = new FileInputStream(path);
+        final String fileEncoding = getFileEncoding(os);
+        final InputStreamReader stream = new InputStreamReader(input, FILE_ENCODING_UTF8);
+        final BufferedReader buffer = new BufferedReader(stream);
+        final BufferedReader reader = buffer;
         String line = reader.readLine();
 
         while (line != null){
+            byte[] bytes = line.getBytes();
+            line = new String(bytes, fileEncoding);
             builder.append(line);
             builder.append(PROPERTY_LINE_SEPARATOR);
             line = reader.readLine();
@@ -66,6 +85,16 @@ public class CommonUtils {
         final String builderString = builder.toString();
 
         return builderString;
+    }
+
+    public static String getFileEncoding(final String os) {
+        if (OS_WIN.equals(os)) {
+            return FILE_ENCODING_SJIS;
+        } else if (OS_MAC.equals(os)) {
+            return FILE_ENCODING_UTF8;
+        } else {
+            return FILE_ENCODING_UTF8;
+        }
     }
 
 }

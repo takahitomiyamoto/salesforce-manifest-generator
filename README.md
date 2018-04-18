@@ -25,11 +25,14 @@ generate the package.xml manifest file including all metadata
             "username": "xxxxxxxxxx",
             "password": "xxxxxxxxxx",
             "orgType": "login",
-            "apiVersion": 41.0
+            "apiVersion": 42.0,
+            "os":"win"
         }
     }
 
-By the way, "orgType" is "login" or "test".
+By the way,
+- "orgType" : "login" or "test"
+- "os" : "win" or "mac"
 
 ### execute the shell script and check the generated package.xml
     $ ./salesforce-manifest-generator

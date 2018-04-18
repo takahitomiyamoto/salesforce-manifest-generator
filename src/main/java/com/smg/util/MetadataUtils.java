@@ -47,6 +47,7 @@ public class MetadataUtils {
     }
 
     private static final String CREDENTIALS_FILE = CommonUtils.CREDENTIALS_FILE;
+    private static final String FILE_ENCODING_UTF8 = CommonUtils.FILE_ENCODING_UTF8;
     public static final String ELEMENT_PACKAGE = "Package";
     public static final String ELEMENT_XMLNS = "xmlns";
     public static final String ELEMENT_TYPES = "types";
@@ -64,8 +65,9 @@ public class MetadataUtils {
     public static void listMetadata(final MetadataConnection metadataConnection)
       throws ConnectionException, IOException, ParserConfigurationException, TransformerConfigurationException
       , TransformerException {
-        final JSONObject jsonObj = new JSONObject(CommonUtils.readAllLine(CREDENTIALS_FILE));
+        final JSONObject jsonObj = new JSONObject(CommonUtils.readAllLine(CREDENTIALS_FILE, FILE_ENCODING_UTF8));
         final Double apiVersion = CommonUtils.getApiVersion(jsonObj);
+        final String os = CommonUtils.getOs(jsonObj);
 
         final List<String> metadataTypeList = getMetadataTypeList(metadataConnection, apiVersion);
         final Map<String, String> metadataTypeFolderMap = new HashMap<String, String>();
@@ -165,7 +167,7 @@ public class MetadataUtils {
 
         final File newManifestFile = new File(MANIFEST_FILE);
         final FileWriter filewriter = new FileWriter(newManifestFile);
-        final String allLine = CommonUtils.readAllLine(MANIFEST_FILE_TEMP);
+        final String allLine = CommonUtils.readAllLine(MANIFEST_FILE_TEMP, os);
         filewriter.write(allLine.replace("><", ">\n<"));
         filewriter.close();
         tempManifestFile.delete();

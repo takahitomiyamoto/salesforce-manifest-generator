@@ -35,8 +35,8 @@ By the way,
     - "login" : production, developer
     - "test" : sandbox
 - "os" : "win" or "mac"
-    - "win" : use "Shift_JIS" to create package.xml
-    - "mac" : use "UTF-8" to create package.xml
+    - "win" : use Windows (you should open the generated file with "Shift_JIS".)
+    - "mac" : use Mac (you should open the generated file with "UTF-8".)
 
 ### execute the shell script and check the generated package.xml
     $ ./salesforce-manifest-generator

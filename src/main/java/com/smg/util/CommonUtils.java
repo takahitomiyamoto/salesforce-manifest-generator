@@ -12,6 +12,8 @@ public class CommonUtils {
     public static final String CREDENTIALS_FILE = "credentials.json";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
+    public static final String PROXY_HOST = "proxyHost";
+    public static final String PROXY_PORT = "proxyPort";
     public static final String ORG_TYPE = "orgType";
     public static final String API_VERSION = "apiVersion";
     public static final String PROPERTY_LINE_SEPARATOR = System.getProperty("line.separator");
@@ -44,17 +46,35 @@ public class CommonUtils {
         return orgType;
     }
 
+    public static Double getApiVersion(final JSONObject jsonObj) {
+        final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
+        final Double apiVersion = credential.getDouble(API_VERSION);
+
+        return apiVersion;
+    }
+
     public static String getAuthEndPoint(final String orgType, final Double apiVersion) {
         final String authEndPoint = CommonUtils.HTTPS + orgType + CommonUtils.SERVICE_SOAP_U + apiVersion;
 
         return authEndPoint;
     }
 
-    public static Double getApiVersion(final JSONObject jsonObj) {
+    public static String getProxyHost(final JSONObject jsonObj) {
         final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
-        final Double apiVersion = credential.getDouble(API_VERSION);
+        if (credential.has(PROXY_HOST)) {
+            return credential.getString(PROXY_HOST);
+        } else {
+            return "";
+        }
+    }
 
-        return apiVersion;
+    public static int getProxyPort(final JSONObject jsonObj) {
+        final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
+        if (credential.has(PROXY_PORT)) {
+            return credential.getInt(PROXY_PORT);
+        } else {
+            return 0;
+        }
     }
 
     public static String getOs(final JSONObject jsonObj) {

@@ -23,8 +23,10 @@ public class LoginUtils {
         final String orgType = CommonUtils.getOrgType(jsonObj);
         final Double apiVersion = CommonUtils.getApiVersion(jsonObj);
         final String authEndPoint = CommonUtils.getAuthEndPoint(orgType, apiVersion);
+        final String proxyHost = CommonUtils.getProxyHost(jsonObj);
+        final int proxyPort = CommonUtils.getProxyPort(jsonObj);
 
-        final LoginResult loginResult = loginToSalesforce(username, password, authEndPoint);
+        final LoginResult loginResult = loginToSalesforce(username, password, authEndPoint, proxyHost, proxyPort);
         System.out.println("userName: " + loginResult.getUserInfo().getUserName());
         System.out.println("sessionId: " + loginResult.getSessionId());
 
@@ -32,12 +34,15 @@ public class LoginUtils {
         return metadataConnection;
     }
 
-    private static LoginResult loginToSalesforce(final String username, final String password, final String authEndPoint)
+    private static LoginResult loginToSalesforce(final String username, final String password, final String authEndPoint, final String proxyHost, final int proxyPort)
       throws ConnectionException {
         final ConnectorConfig config = new ConnectorConfig();
         config.setAuthEndpoint(authEndPoint);
         config.setServiceEndpoint(authEndPoint);
         config.setManualLogin(true);
+        if (!"".equals(proxyHost) && 0 != proxyPort) {
+            config.setProxy(proxyHost, proxyPort);
+        }
 
         final PartnerConnection partnerConnection = new PartnerConnection(config);
         return partnerConnection.login(username, password);

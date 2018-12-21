@@ -16,6 +16,9 @@ public class CommonUtils {
     public static final String PROXY_PORT = "proxyPort";
     public static final String ORG_TYPE = "orgType";
     public static final String API_VERSION = "apiVersion";
+    public static final String EXCEPT_MANAGED_PACKAGE = "exceptManagedPackage";
+    public static final String EXCEPT_UNMANAGED_PACKAGE = "exceptUnmanagedPackage";
+    public static final String EXCEPT_UNLOCKED_PACKAGE = "exceptUnlockedPackage";
     public static final String PROPERTY_LINE_SEPARATOR = System.getProperty("line.separator");
     public static final String HTTPS = "https://";
     public static final String SERVICE_SOAP_U = ".salesforce.com/services/Soap/u/";
@@ -74,6 +77,33 @@ public class CommonUtils {
             return credential.getInt(PROXY_PORT);
         } else {
             return 0;
+        }
+    }
+
+    public static Boolean getExceptManagedPackage(final JSONObject jsonObj) {
+        final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
+        if (credential.has(EXCEPT_MANAGED_PACKAGE)) {
+            return credential.getBoolean(EXCEPT_MANAGED_PACKAGE);
+        } else {
+            return false;
+        }
+    }
+
+    public static Boolean getExceptUnmanagedPackage(final JSONObject jsonObj) {
+        final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
+        if (credential.has(EXCEPT_UNMANAGED_PACKAGE)) {
+            return credential.getBoolean(EXCEPT_UNMANAGED_PACKAGE);
+        } else {
+            return false;
+        }
+    }
+
+    public static Boolean getExceptUnlockedPackage(final JSONObject jsonObj) {
+        final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);
+        if (credential.has(EXCEPT_UNLOCKED_PACKAGE)) {
+            return credential.getBoolean(EXCEPT_UNLOCKED_PACKAGE);
+        } else {
+            return false;
         }
     }
 

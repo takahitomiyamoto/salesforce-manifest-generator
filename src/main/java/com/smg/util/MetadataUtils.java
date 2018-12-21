@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -61,12 +62,17 @@ public class MetadataUtils {
     public static final String VALUE_INDENT_AMOUNT = "4";
     public static final String MANIFEST_FILE_TEMP = "package_temp.xml";
     public static final String MANIFEST_FILE = "package.xml";
+    public static final String[] manageableStateManaged = {"beta", "deleted", "deprecated", "installed", "released"};
+    public static final String[] manageableStateUnmanaged = {"unmanaged"};
 
     public static void listMetadata(final MetadataConnection metadataConnection)
       throws ConnectionException, IOException, ParserConfigurationException, TransformerConfigurationException
       , TransformerException {
         final JSONObject jsonObj = new JSONObject(CommonUtils.readAllLine(CREDENTIALS_FILE, FILE_ENCODING_UTF8));
         final Double apiVersion = CommonUtils.getApiVersion(jsonObj);
+        final Boolean exceptManagedPackage = CommonUtils.getExceptManagedPackage(jsonObj);
+        final Boolean exceptUnmanagedPackage = CommonUtils.getExceptUnmanagedPackage(jsonObj);
+        // final Boolean exceptUnlockedPackage = CommonUtils.getExceptUnlockedPackage(jsonObj);
         final String os = CommonUtils.getOs(jsonObj);
 
         final List<String> metadataTypeList = getMetadataTypeList(metadataConnection, apiVersion);
@@ -112,6 +118,34 @@ public class MetadataUtils {
                 final List<String> fullNameList = new ArrayList<String>();
 
                 for (FileProperties fp : fileProperties) {
+                    Boolean except = (
+                        true
+                      // Managed Package
+                    //   (
+                    //     exceptManagedPackage && (
+                    //       (!exceptUnmanagedPackage && null != fp.getNamespacePrefix() && "" != fp.getNamespacePrefix()) ||
+                    //       (Arrays.asList(manageableStateManaged).contains(String.valueOf(fp.getManageableState())))
+                    //     )
+                    //   ) ||
+                    //   // UnManaged Package
+                    //   (
+                    //     exceptUnmanagedPackage &&
+                    //     null != fp.getNamespacePrefix() && "" != fp.getNamespacePrefix() &&
+                    //     Arrays.asList(manageableStateUnmanaged).contains(String.valueOf(fp.getManageableState()))
+                    // //   ) ||
+                    // //   // Unlocked Package
+                    // //   (
+                    // //     exceptUnlockedPackage &&
+                    // //     Arrays.asList(manageableStateUnlocked).contains(String.valueOf(fp.getManageableState()))
+                    //   )
+                    );
+
+                    if (except) {
+                        continue;
+                    }
+
+                    System.out.println(fp.getFullName() + " : " + fp.getNamespacePrefix() + " : " + fp.getManageableState());
+
                     fullNameList.add(fp.getFullName());
                     if (hasKey) {
                         folderList.add(fp.getFullName());

@@ -7,6 +7,9 @@ import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
 import com.smg.util.CommonUtils;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONObject;
 
 public class LoginUtils {
@@ -27,8 +30,10 @@ public class LoginUtils {
         final int proxyPort = CommonUtils.getProxyPort(jsonObj);
 
         final LoginResult loginResult = loginToSalesforce(username, password, authEndPoint, proxyHost, proxyPort);
-        System.out.println("userName: " + loginResult.getUserInfo().getUserName());
-        System.out.println("sessionId: " + loginResult.getSessionId());
+
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        System.out.print("[" + simpleDate.format(new Date()) + "] ");
+        System.out.println("successfully login: " + loginResult.getUserInfo().getUserName());
 
         final MetadataConnection metadataConnection = createMetadataConnection(loginResult, proxyHost, proxyPort);
         return metadataConnection;

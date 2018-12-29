@@ -4,6 +4,9 @@
 .vscode
 bin
 build
+package_managed.xml
+package_unlocked.xml
+package_unmanaged.xml
 package.xml
 credentials.json
 salesforce-manifest-generator

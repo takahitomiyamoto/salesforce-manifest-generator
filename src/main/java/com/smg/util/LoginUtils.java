@@ -32,7 +32,6 @@ public class LoginUtils {
 
         final LoginResult loginResult = loginToSalesforce(username, password, authEndPoint, proxyHost, proxyPort);
 
-        // SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         System.out.print("[" + simpleDate.format(new Date()) + "] ");
         System.out.println("successfully login: " + loginResult.getUserInfo().getUserName());
 

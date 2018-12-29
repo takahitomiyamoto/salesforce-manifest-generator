@@ -30,7 +30,7 @@ public class LoginUtils {
         System.out.println("userName: " + loginResult.getUserInfo().getUserName());
         System.out.println("sessionId: " + loginResult.getSessionId());
 
-        final MetadataConnection metadataConnection = createMetadataConnection(loginResult);
+        final MetadataConnection metadataConnection = createMetadataConnection(loginResult, proxyHost, proxyPort);
         return metadataConnection;
     }
 
@@ -48,11 +48,14 @@ public class LoginUtils {
         return partnerConnection.login(username, password);
     }
 
-    private static MetadataConnection createMetadataConnection(final LoginResult loginResult)
+    private static MetadataConnection createMetadataConnection(final LoginResult loginResult, final String proxyHost, final int proxyPort)
       throws ConnectionException {
         final ConnectorConfig config = new ConnectorConfig();
         config.setServiceEndpoint(loginResult.getMetadataServerUrl());
         config.setSessionId(loginResult.getSessionId());
+        if (!"".equals(proxyHost) && 0 != proxyPort) {
+            config.setProxy(proxyHost, proxyPort);
+        }
 
         final MetadataConnection metadataConnection = new MetadataConnection(config);
         return metadataConnection;

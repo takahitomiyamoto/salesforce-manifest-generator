@@ -35,7 +35,9 @@ mv credentials_sample.json credentials.json
     "credentials": {
         "username": "xxxxxxxxxx",
         "password": "xxxxxxxxxx",
-        "proxyHost": "xxxxxxxxxx",
+        "exceptManagedPackage": true,
+        "exceptUnmanagedPackage": true,
+        "orgType": "login",
         "apiVersion": 44.0,
         "os":"win"
     }
@@ -51,6 +53,8 @@ If you log in to Salesforce via a proxy, set the proxy host and port:
         "password": "xxxxxxxxxx",
         "proxyHost": "samplehost",
         "proxyPort": 9999,
+        "exceptManagedPackage": true,
+        "exceptUnmanagedPackage": true,
         "orgType": "login",
         "apiVersion": 44.0,
         "os":"win"
@@ -59,6 +63,10 @@ If you log in to Salesforce via a proxy, set the proxy host and port:
 ```
 
 By the way,
+- "exceptManagedPackage" : true or false
+    - if true, all managed or unlocked metadata types move from package.xml to package_managed.xml or package_unlocked.xml
+- "exceptUnmanagedPackage" : true or false
+    - if true, all unmanaged metadata types move from package.xml to package_unmanaged.xml
 - "orgType" : "login" or "test"
     - "login" : production, developer
     - "test" : sandbox

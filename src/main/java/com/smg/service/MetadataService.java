@@ -224,14 +224,6 @@ public class MetadataService {
             final List<String> fullNameListUnmanaged = new ArrayList<String>();
 
             for (FileProperties fp : fileProperties) {
-                System.out.print(fp.getType());
-                System.out.print(" ");
-                System.out.print(fp.getManageableState());
-                System.out.print(" ");
-                System.out.print(fp.getNamespacePrefix());
-                System.out.print(" ");
-                System.out.println(fp.getFullName());
-
                 Boolean hasFilePropertiesManaged = (
                     exceptManagedPackage && (
                         Arrays.asList(manageableStateManaged).contains(String.valueOf(fp.getManageableState())) &&

@@ -16,6 +16,7 @@ public class LoginUtils {
 
     private static final String CREDENTIALS_FILE = CommonUtils.CREDENTIALS_FILE;
     private static final String FILE_ENCODING_UTF8 = CommonUtils.FILE_ENCODING_UTF8;
+    private static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public static MetadataConnection login()
       throws ConnectionException, IOException {
@@ -31,7 +32,7 @@ public class LoginUtils {
 
         final LoginResult loginResult = loginToSalesforce(username, password, authEndPoint, proxyHost, proxyPort);
 
-        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        // SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         System.out.print("[" + simpleDate.format(new Date()) + "] ");
         System.out.println("successfully login: " + loginResult.getUserInfo().getUserName());
 
@@ -39,28 +40,35 @@ public class LoginUtils {
         return metadataConnection;
     }
 
-    private static LoginResult loginToSalesforce(final String username, final String password, final String authEndPoint, final String proxyHost, final int proxyPort)
+    private static ConnectorConfig setProxy(ConnectorConfig config, String proxyHost, int proxyPort) {
+        System.out.print("[" + simpleDate.format(new Date()) + "] ");
+        if (!"".equals(proxyHost) && 0 != proxyPort) {
+            config.setProxy(proxyHost, proxyPort);
+            System.out.println("set the proxy option...");
+        } else {
+            System.out.println("did not set the proxy option...");
+        }
+        return config;
+    }
+
+    private static LoginResult loginToSalesforce(String username, String password, String authEndPoint, String proxyHost, int proxyPort)
       throws ConnectionException {
-        final ConnectorConfig config = new ConnectorConfig();
+        ConnectorConfig config = new ConnectorConfig();
         config.setAuthEndpoint(authEndPoint);
         config.setServiceEndpoint(authEndPoint);
         config.setManualLogin(true);
-        if (!"".equals(proxyHost) && 0 != proxyPort) {
-            config.setProxy(proxyHost, proxyPort);
-        }
+        config = setProxy(config, proxyHost, proxyPort);
 
         final PartnerConnection partnerConnection = new PartnerConnection(config);
         return partnerConnection.login(username, password);
     }
 
-    private static MetadataConnection createMetadataConnection(final LoginResult loginResult, final String proxyHost, final int proxyPort)
+    private static MetadataConnection createMetadataConnection(LoginResult loginResult, String proxyHost, int proxyPort)
       throws ConnectionException {
-        final ConnectorConfig config = new ConnectorConfig();
+        ConnectorConfig config = new ConnectorConfig();
         config.setServiceEndpoint(loginResult.getMetadataServerUrl());
         config.setSessionId(loginResult.getSessionId());
-        if (!"".equals(proxyHost) && 0 != proxyPort) {
-            config.setProxy(proxyHost, proxyPort);
-        }
+        config = setProxy(config, proxyHost, proxyPort);
 
         final MetadataConnection metadataConnection = new MetadataConnection(config);
         return metadataConnection;

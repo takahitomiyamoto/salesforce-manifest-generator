@@ -43,9 +43,8 @@ public class LoginUtils {
     private static ConnectorConfig setProxy(ConnectorConfig config, String proxyHost, int proxyPort) {
         System.out.print("[" + simpleDate.format(new Date()) + "] ");
         if (!"".equals(proxyHost) && 0 != proxyPort) {
-            System.out.println("try to set the proxy option...");
             config.setProxy(proxyHost, proxyPort);
-            System.out.println("set the proxy option...");
+            System.out.println("try to set the proxy option...");
         } else {
             System.out.println("did not set the proxy option...");
         }

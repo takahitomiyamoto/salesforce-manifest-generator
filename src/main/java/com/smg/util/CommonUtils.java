@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+
 import org.json.JSONObject;
 
 public class CommonUtils {
@@ -26,6 +28,7 @@ public class CommonUtils {
     private static final String FILE_ENCODING_SJIS = "Shift_JIS";
     public static final String CREDENTIALS_FILE = "credentials.json";
     public static final String FILE_ENCODING_UTF8 = "UTF-8";
+    public static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public static String getUsername(final JSONObject jsonObj) {
         final JSONObject credential = jsonObj.getJSONObject(CREDENTIALS);

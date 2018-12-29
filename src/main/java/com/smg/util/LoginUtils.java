@@ -16,7 +16,7 @@ public class LoginUtils {
 
     private static final String CREDENTIALS_FILE = CommonUtils.CREDENTIALS_FILE;
     private static final String FILE_ENCODING_UTF8 = CommonUtils.FILE_ENCODING_UTF8;
-    private static SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private static SimpleDateFormat simpleDate = CommonUtils.simpleDate;
 
     public static MetadataConnection login()
       throws ConnectionException, IOException {

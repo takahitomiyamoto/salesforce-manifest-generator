@@ -63,7 +63,6 @@ public class MetadataService {
     private static final String ELEMENT_NAME = "name";
     private static final String ELEMENT_VERSION = "version";
     private static final String MESSAGE_SUCCESS = "successfully gererated: ";
-    private static final String MESSAGE_INPROGRESS = "In progress... ";
     private static final String PROPERTY_INDENT_AMOUNT = "{http://xml.apache.org/xslt}indent-amount";
     private static final String VALUE_XMLNS = "http://soap.sforce.com/2006/04/metadata";
     private static final String VALUE_YES = "Yes";
@@ -76,6 +75,7 @@ public class MetadataService {
     private static final String MANIFEST_FILE_UNMANAGED = "package_unmanaged.xml";
     private static final String[] manageableStateManaged = {"beta", "deleted", "deprecated", "installed", "released"};
     private static final String[] manageableStateUnmanaged = {"unmanaged"};
+    private static SimpleDateFormat simpleDate = CommonUtils.simpleDate;
 
     private final MetadataConnection metadataConnection;
     private final Map<String, String> metadataTypeFolderMap = new HashMap<String, String>();
@@ -223,7 +223,21 @@ public class MetadataService {
             final List<String> fullNameListUnlocked = new ArrayList<String>();
             final List<String> fullNameListUnmanaged = new ArrayList<String>();
 
+            System.out.println("");
+            System.out.print("[" + simpleDate.format(new Date()) + "] ");
+            System.out.println(metadataTypeLv1);
+
             for (FileProperties fp : fileProperties) {
+                System.out.print("[" + simpleDate.format(new Date()) + "] ");
+                System.out.print("<NamespacePrefix> ");
+                System.out.print(fp.getNamespacePrefix());
+                System.out.print(" ");
+                System.out.print("<ManageableState> ");
+                System.out.print(fp.getManageableState());
+                System.out.print(" ");
+                System.out.print("<FullName> ");
+                System.out.println(fp.getFullName());
+
                 Boolean hasFilePropertiesManaged = (
                     exceptManagedPackage && (
                         Arrays.asList(manageableStateManaged).contains(String.valueOf(fp.getManageableState())) &&
@@ -307,11 +321,6 @@ public class MetadataService {
                 rootElementUnmanaged.appendChild(typesUnmanaged);
                 hasTypesUnmaged = true;
             }
-
-            SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            System.out.print("[" + simpleDate.format(new Date()) + "] ");
-            System.out.print(MESSAGE_INPROGRESS);
-            System.out.println(metadataTypeLv1);
         }
 
         if (hasTypes) {

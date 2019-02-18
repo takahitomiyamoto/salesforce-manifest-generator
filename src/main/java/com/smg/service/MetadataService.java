@@ -210,10 +210,10 @@ public class MetadataService {
             final ListMetadataQuery queryLv1 = new ListMetadataQuery();
             queryLv1.setType(metadataTypeLv1);
             final ListMetadataQuery[] queriesLv1 = new ListMetadataQuery[]{queryLv1};
-            final FileProperties[] fileProperties = this.metadataConnection.listMetadata(queriesLv1, apiVersion);
-            Boolean hasFileProperties = (fileProperties.length > 0);
+            final FileProperties[] filePropertiesLv1 = this.metadataConnection.listMetadata(queriesLv1, apiVersion);
+            Boolean hasFilePropertiesLv1 = (filePropertiesLv1.length > 0);
 
-            if (!hasFileProperties) {
+            if (!hasFilePropertiesLv1) {
                 continue;
             }
 
@@ -227,70 +227,117 @@ public class MetadataService {
             System.out.print("[" + simpleDate.format(new Date()) + "] ");
             System.out.println(metadataTypeLv1);
 
-            for (FileProperties fp : fileProperties) {
+            for (FileProperties fpLv1 : filePropertiesLv1) {
                 System.out.print("[" + simpleDate.format(new Date()) + "] ");
                 System.out.print("<NamespacePrefix> ");
-                System.out.print(fp.getNamespacePrefix());
+                System.out.print(fpLv1.getNamespacePrefix());
                 System.out.print(" ");
                 System.out.print("<ManageableState> ");
-                System.out.print(fp.getManageableState());
+                System.out.print(fpLv1.getManageableState());
                 System.out.print(" ");
                 System.out.print("<FullName> ");
-                System.out.println(fp.getFullName());
+                System.out.println(fpLv1.getFullName());
 
                 Boolean hasFilePropertiesManaged = (
                     exceptManagedPackage && (
-                        Arrays.asList(manageableStateManaged).contains(String.valueOf(fp.getManageableState())) &&
-                        (null != fp.getNamespacePrefix())
+                        Arrays.asList(manageableStateManaged).contains(String.valueOf(fpLv1.getManageableState())) &&
+                        (null != fpLv1.getNamespacePrefix())
                     )
                 );
 
                 Boolean hasFilePropertiesUnlocked = (
                     exceptManagedPackage && (
-                        Arrays.asList(manageableStateManaged).contains(String.valueOf(fp.getManageableState())) &&
-                        (null == fp.getNamespacePrefix())
+                        Arrays.asList(manageableStateManaged).contains(String.valueOf(fpLv1.getManageableState())) &&
+                        (null == fpLv1.getNamespacePrefix())
                     )
                 );
 
                 Boolean hasFilePropertiesUnmanaged = (
                     exceptUnmanagedPackage && (
-                        Arrays.asList(manageableStateUnmanaged).contains(String.valueOf(fp.getManageableState()))
+                        Arrays.asList(manageableStateUnmanaged).contains(String.valueOf(fpLv1.getManageableState()))
                     )
                 );
 
                 if (hasFilePropertiesManaged) {
-                    fullNameListManaged.add(fp.getFullName());
-                    continue;
+                    fullNameListManaged.add(fpLv1.getFullName());
                 }
 
                 if (hasFilePropertiesUnlocked) {
-                    fullNameListUnlocked.add(fp.getFullName());
-                    continue;
+                    fullNameListUnlocked.add(fpLv1.getFullName());
                 }
 
                 if (hasFilePropertiesUnmanaged) {
-                    fullNameListUnmanaged.add(fp.getFullName());
-                    continue;
+                    fullNameListUnmanaged.add(fpLv1.getFullName());
                 }
 
                 if (hasKey) {
-                    folderList.add(fp.getFullName());
+                    folderList.add(fpLv1.getFullName());
                 }
 
-                fullNameList.add(fp.getFullName());
+                fullNameList.add(fpLv1.getFullName());
             }
 
             for (String folder : folderList) {
+                // FIXME: this logic is the same as Lv1, so that can be written simply.
                 final ListMetadataQuery queryLv2 = new ListMetadataQuery();
                 queryLv2.setType(metadataTypeLv2);
                 queryLv2.setFolder(folder);
                 final ListMetadataQuery[] queriesLv2 = new ListMetadataQuery[]{queryLv2};
-                final FileProperties[] fileProperties2 = this.metadataConnection.listMetadata(queriesLv2, apiVersion);
+                final FileProperties[] filePropertiesLv2 = this.metadataConnection.listMetadata(queriesLv2, apiVersion);
+                Boolean hasFilePropertiesLv2 = (filePropertiesLv2.length > 0);
 
-                if (fileProperties2 != null) {
-                    for (FileProperties fp2 : fileProperties2) {
-                        fullNameList.add(fp2.getFullName());
+                if (!hasFilePropertiesLv2) {
+                    continue;
+                }
+    
+                System.out.println("");
+                System.out.print("[" + simpleDate.format(new Date()) + "] ");
+                System.out.println(metadataTypeLv2);
+
+                for (FileProperties fpLv2 : filePropertiesLv2) {
+                    System.out.print("[" + simpleDate.format(new Date()) + "] ");
+                    System.out.print("<NamespacePrefix> ");
+                    System.out.print(fpLv2.getNamespacePrefix());
+                    System.out.print(" ");
+                    System.out.print("<ManageableState> ");
+                    System.out.print(fpLv2.getManageableState());
+                    System.out.print(" ");
+                    System.out.print("<FullName> ");
+                    System.out.println(fpLv2.getFullName());
+    
+                    Boolean hasFilePropertiesManaged = (
+                        exceptManagedPackage && (
+                            Arrays.asList(manageableStateManaged).contains(String.valueOf(fpLv2.getManageableState())) &&
+                            (null != fpLv2.getNamespacePrefix())
+                        )
+                    );
+    
+                    Boolean hasFilePropertiesUnlocked = (
+                        exceptManagedPackage && (
+                            Arrays.asList(manageableStateManaged).contains(String.valueOf(fpLv2.getManageableState())) &&
+                            (null == fpLv2.getNamespacePrefix())
+                        )
+                    );
+    
+                    Boolean hasFilePropertiesUnmanaged = (
+                        exceptUnmanagedPackage && (
+                            Arrays.asList(manageableStateUnmanaged).contains(String.valueOf(fpLv2.getManageableState()))
+                        )
+                    );
+    
+                    if (hasFilePropertiesManaged) {
+                        fullNameListManaged.add(fpLv2.getFullName());
                     }
+    
+                    if (hasFilePropertiesUnlocked) {
+                        fullNameListUnlocked.add(fpLv2.getFullName());
+                    }
+    
+                    if (hasFilePropertiesUnmanaged) {
+                        fullNameListUnmanaged.add(fpLv2.getFullName());
+                    }
+        
+                    fullNameList.add(fpLv2.getFullName());
                 }
             }
 

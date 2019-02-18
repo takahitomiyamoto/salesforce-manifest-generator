@@ -260,21 +260,15 @@ public class MetadataService {
 
                 if (hasFilePropertiesManaged) {
                     fullNameListManaged.add(fpLv1.getFullName());
-                }
-
-                if (hasFilePropertiesUnlocked) {
+                } else if (hasFilePropertiesUnlocked) {
                     fullNameListUnlocked.add(fpLv1.getFullName());
-                }
-
-                if (hasFilePropertiesUnmanaged) {
+                } else if (hasFilePropertiesUnmanaged) {
                     fullNameListUnmanaged.add(fpLv1.getFullName());
-                }
-
-                if (hasKey) {
+                } else if (hasKey) {
                     folderList.add(fpLv1.getFullName());
+                } else {
+                    fullNameList.add(fpLv1.getFullName());
                 }
-
-                fullNameList.add(fpLv1.getFullName());
             }
 
             for (String folder : folderList) {
@@ -327,17 +321,15 @@ public class MetadataService {
     
                     if (hasFilePropertiesManaged) {
                         fullNameListManaged.add(fpLv2.getFullName());
-                    }
-    
-                    if (hasFilePropertiesUnlocked) {
+                    } else if (hasFilePropertiesUnlocked) {
                         fullNameListUnlocked.add(fpLv2.getFullName());
-                    }
-    
-                    if (hasFilePropertiesUnmanaged) {
+                    } else if (hasFilePropertiesUnmanaged) {
                         fullNameListUnmanaged.add(fpLv2.getFullName());
+                    } else if (hasKey) {
+                        folderList.add(fpLv2.getFullName());
+                    } else {
+                        fullNameList.add(fpLv2.getFullName());
                     }
-        
-                    fullNameList.add(fpLv2.getFullName());
                 }
             }
 

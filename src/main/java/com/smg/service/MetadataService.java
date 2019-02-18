@@ -264,10 +264,12 @@ public class MetadataService {
                     fullNameListUnlocked.add(fpLv1.getFullName());
                 } else if (hasFilePropertiesUnmanaged) {
                     fullNameListUnmanaged.add(fpLv1.getFullName());
-                } else if (hasKey) {
-                    folderList.add(fpLv1.getFullName());
                 } else {
                     fullNameList.add(fpLv1.getFullName());
+                }
+
+                if (hasKey) {
+                    folderList.add(fpLv1.getFullName());
                 }
             }
 
@@ -325,8 +327,6 @@ public class MetadataService {
                         fullNameListUnlocked.add(fpLv2.getFullName());
                     } else if (hasFilePropertiesUnmanaged) {
                         fullNameListUnmanaged.add(fpLv2.getFullName());
-                    } else if (hasKey) {
-                        folderList.add(fpLv2.getFullName());
                     } else {
                         fullNameList.add(fpLv2.getFullName());
                     }

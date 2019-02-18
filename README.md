@@ -38,7 +38,7 @@ mv credentials_sample.json credentials.json
         "exceptManagedPackage": true,
         "exceptUnmanagedPackage": true,
         "orgType": "login",
-        "apiVersion": 44.0,
+        "apiVersion": 45.0,
         "os":"win"
     }
 }
@@ -56,7 +56,7 @@ If you log in to Salesforce via a proxy, set the proxy host and port:
         "exceptManagedPackage": true,
         "exceptUnmanagedPackage": true,
         "orgType": "login",
-        "apiVersion": 44.0,
+        "apiVersion": 45.0,
         "os":"win"
     }
 }

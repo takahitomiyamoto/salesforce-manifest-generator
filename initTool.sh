@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 
 rm -r salesforce-manifest-generator
 gradle build

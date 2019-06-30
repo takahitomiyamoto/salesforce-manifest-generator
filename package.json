@@ -1,0 +1,27 @@
+{
+  "name": "salesforce-manifest-generator",
+  "description": "generate the package.xml manifest file including all metadata",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettier": "prettier --write \"**/*.{java,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takahitomiyamoto/salesforce-manifest-generator.git"
+  },
+  "author": "Takahito Miyamoto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/takahitomiyamoto/salesforce-manifest-generator/issues"
+  },
+  "homepage": "https://github.com/takahitomiyamoto/salesforce-manifest-generator#readme",
+  "devDependencies": {
+    "lodash": "^4.17.11",
+    "prettier": "1.18.2",
+    "prettier-plugin-java": "^0.3.1"
+  }
+}

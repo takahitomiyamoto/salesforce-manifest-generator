@@ -10,3 +10,5 @@ package_unmanaged.xml
 package.xml
 credentials.json
 salesforce-manifest-generator
+node_modules
+package-lock.json

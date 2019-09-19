@@ -3,8 +3,8 @@ apply plugin: 'application'
 
 mainClassName = 'com.smg.main.GenerateManifest'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11.0
+targetCompatibility = 11.0
 
 dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
